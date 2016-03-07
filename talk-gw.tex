@@ -285,27 +285,120 @@ Functioning probability $\ptk$ of \comp{k} for each time $t \in {\cal T} = \{\do
 \uncover<6->{%
 \cyanalert{use Bayesian inference to estimate $\ptk$'s:}} %combine information from
 \begin{itemize}
-\item[\play]<7-> failure times $\vec{t}^k = (t^k_1, \ldots, t^k_{n_k})$ from test data
+\item[\play]<7-> failure times $\vec{t}^k = (t^k_1, \ldots, t^k_{n_k})$ from component test data
  \begin{itemize}
  \item[] number of type $k$ components functioning at $t$:\\
- $S^k_t \sim \bin(\ptk, n_k)$
+ $S^k_t \mid \ptk \sim \bin(\ptk, n_k)$
  \end{itemize}
 \item[\play]<8-> expert knowledge
  \begin{itemize}
- \item[] Beta parameters for each $k$ and $t$:\\
- $\ptk \sim \be(\nz_{k,t}, \yz_{k,t})$ \hspace{6ex} \uncover<10->{$\nz_{k,t} = \az_{k,t} + \bz_{k,t}$,
-                                                                   \quad $\yz_{k,t} = \frac{\az_{k,t}}{\az_{k,t} + \bz_{k,t}} = \E[\ptk]$}
+ \item[] Beta prior for each $k$ and $t$:\\
+ $\ptk \sim \be(\az_{k,t}, \bz_{k,t})$ %\hspace{6ex} \uncover<10->{$\nz_{k,t} = \az_{k,t} + \bz_{k,t}$,
+                                       %                            \quad $\yz_{k,t} = \frac{\az_{k,t}}{\az_{k,t} + \bz_{k,t}} = \E[\ptk]$}
  \end{itemize}
 \item[\play]<9-> complete picture
  \begin{itemize}
- \item[] updated Beta parameters for each $k$ and $t$:\\[1ex]
- $\ptk \mid s^k_t \sim \be(\nn_{k,t}, \yn_{k,t})$ %\hspace{3ex} \uncover<12->{$\nn_{k,t} = \nz_{k,t} + n_k$} \\
+ \item[] Beta posterior for each $k$ and $t$:\\ %[1ex]
+ $\ptk \mid s^k_t \sim \be(\an_{k,t}, \bn_{k,t})$ %\hspace{3ex} \uncover<12->{$\nn_{k,t} = \nz_{k,t} + n_k$} \\
 %\hspace*{15ex} \uncover<12->{$\yn_{k,t} = \frac{\nz_{k,t}}{\nz_{k,t} + n_k} \, \yz_{k,t} + \frac{n_k}{\nz_{k,t} + n} \cdot \frac{s^k_t}{n_k}$}
  \end{itemize}
 \end{itemize}}};
 \end{tikzpicture}
 
 \end{frame}
+
+\begin{frame}{Prior-Data Conflict}
+
+What if expert information and data tell different stories?\\
+\begin{tikzpicture}
+[pfeil/.style={-latex', line width=1mm, color=tuered, shorten <=1mm},
+ cyanrand/.style={rounded corners, text centered, draw=tuecyan!50, inner sep=1mm, line width=0.7mm},
+ redbrace/.style={draw=tuered, decoration=brace, decorate, line width=0.8mm},
+ redbox/.style={text centered, draw=tuered, inner sep=1.5mm, line width=1mm, minimum width=0.75\textwidth}]
+\uncover<2>{%
+\node at (0,0) %
+{\parbox{\textwidth}{%
+\begin{block}{Prior-Data Conflict}
+\begin{itemize}
+\item \emph{informative prior beliefs} and \emph{trusted data}\\ %\rule{0ex}{3ex}\\
+(sampling model correct, no outliers, etc.) are in conflict%\\%[2ex]
+\item ``[\ldots] the prior [places] its mass primarily on distributions
+in the sampling model for which the observed data is surprising''\\
+\parencite{2006:evans}
+\item there are not enough data to overrule the prior
+\end{itemize}
+\end{block}%
+}};}
+\uncover<3->{%
+\node at (0,1.7) %
+{\parbox{\textwidth}{%
+\play\ reparametrisation helps to understand effect of prior-data conflict:
+}};}
+\uncover<4->{%
+\node at (0,0.2) {\parbox[c]{\textwidth}{%
+\begin{align*}
+\nzg &= \az + \bz\,,
+&
+\yzr &= \frac{\az}{\az + \bz}\,, \quad \text{which are updated as}\\%[1.5ex]
+\nng &= \nzg + n\,, 
+&
+\ynr &=  \frac{\nzg}{\nzg + n} \, \yzr + \frac{n}{\nzg + n} \cdot \frac{s}{n}
+\end{align*}
+}};}
+\uncover<5->{%
+\node[cyanrand] (yz) at (-0.9,-1.9) {$\yzr = \E[p]$};
+\draw [pfeil] (yz.north east) to [out= 30,in=260] ( 0.9,-0.65);
+\draw [pfeil] (yz.north west) to [out=130,in=240] (-1.7,0.4);}
+\uncover<6->{%
+\node[cyanrand] (yn) at ( 1.4,-1.9) {$\ynr = \E[p \mid s]$};
+\draw [pfeil] (yn.north)      to [out=130,in=280] (-1.4,-0.65);}
+\uncover<7->{%
+\node[cyanrand] (ml) at ( 4.3,-1.9) {ML estimator $\hat{p}$};
+\draw [pfeil] (ml.north)      to [out=100,in=330] (3.6,-0.65);}
+\uncover<8->{%
+\node[cyanrand] (nz) at (-4  ,-1.9) {$\nzg =$ pseudocounts};
+\draw [pfeil] (nz.north)      to [out=90,in=270] (-4.0,-0.65);
+\draw [pfeil] (nz.north west) to [out=95,in=240] (-5.2, 0.5);}
+\uncover<9->{%
+\node[redbox] at (0,-2.8) {$\E[p \mid s] = \ynr$ is a weighted average of $\E[p]$ and $\hat{p}$!};}
+\uncover<10>{%
+\node[redbox] at (0,-4.0) {$\V[p \mid s] = \dfrac{\ynr (1-\ynr)}{\nng + 1}$ decreases with $n$!};}
+\end{tikzpicture}
+
+\end{frame}
+
+\begin{frame}{Sets of Priors}
+
+\begin{itemize}%[<+->]
+\item[\play] \textbf{Add \alert{imprecision} as new modelling dimension:\\
+\alert{Sets of priors}}
+ \begin{itemize}
+ \item model uncertainty in probability statements ***show lottery A, B box
+ \item allow for partial or vague information on $\ptk$
+ \item highlight prior-data conflict.
+ \end{itemize}
+%\item What if expert information and data tell different stories?\\
+%How is uncertainty about $\Rsys(t)$ expressed?
+%\item Choosing all these Beta parameters is hard \ldots\\
+%How to model partial and vague expert knowledge?
+\item Separate uncertainty \emph{whithin the model} (reliability statements)\\
+% ie what do we expect to see if components follow a Weibull(3.5,2) 
+from uncertainty \emph{about the model} (which parameters).
+\item Can also be seen as systematic sensitivity analysis\\
+or robust Bayesian approach.
+\item \textcite{2009:WalterAugustin}, \textcite{2013:diss-gw}:\\
+vary $(\nzg, \yzr)$ in a set $\PZc = [\nzlg, \nzug] \times [\yzlr, \yzur]$\\
+\uncover<1->{\quad\play\ easy elicitation, tractability \& prior-data conflict sensitivity}\\
+Bounds for inferences (point estimate, \ldots) by min/max over $\PZc or \PNc$
+
+***or slide 9 from talk-lund???
+%\uncover<7->{\quad\play\ min and max $\Rsys(t)$ over $\PZ$ analytical in most cases!}
+%$\min_{\PZ} P\left(\Tsys > t \mid \{\nz_{k,t},\yz_{k,t},\vec{t}^k\}^{1:K}\right)$
+\end{itemize}
+
+\end{frame}
+
+
 
 \begin{frame}{System Reliability}
 
@@ -396,82 +489,22 @@ Functioning probability $\ptk$ of \comp{k} for each time $t \in {\cal T} = \{\do
 
 \end{frame}
 
-\begin{frame}{System Reliability: Example}
+%\begin{frame}{System Reliability: Example}
+%
+%\includegraphics[width=\textwidth]{figs/sysrelex}\\
+%
+%\end{frame}
 
-\includegraphics[width=\textwidth]{figs/sysrelex}\\
-
-\end{frame}
 
 
-
-\begin{frame}{Vague Knowledge \& Prior-Data Conflict}
-
-\begin{itemize}[<+->]
-\item Choosing all these Beta parameters is hard \ldots\\
-How to model partial and vague expert knowledge?
-\item What if expert information and data tell different stories?\\
-How is uncertainty about $\Rsys(t)$ expressed?
-\item[\play] \textbf{Add \alert{imprecision} as new modelling dimension:\\
-\alert{Sets of priors} model uncertainty in probability statements,\\
-allow to better model partial or vague information on $\ptk$
-and highlight prior-data conflict.}
-\item Separate uncertainty \emph{whithin the model} (reliability statements)\\
-% ie what do we expect to see if components follow a Weibull(3.5,2) 
-from uncertainty \emph{about the model} (which parameters).
-\item \textcite{2009:WalterAugustin}, \textcite{2013:diss-gw}:\\
-vary $(\nz, \yz)$ in a set $\PZ = [\nzl, \nzu] \times [\yzl, \yzu]$\\
-\uncover<6->{\quad\play\ easy elicitation, tractability \& prior-data conflict sensitivity\\}
-\uncover<7->{\quad\play\ min and max $\Rsys(t)$ over $\PZ$ analytical in most cases!}
-\end{itemize}
-%$\min_{\PZ} P\left(\Tsys > t \mid \{\nz_{k,t},\yz_{k,t},\vec{t}^k\}^{1:K}\right)$
-
-\end{frame}
 
 \iffalse
-\begin{frame}{Prior-Data Conflict}
-\uncover<1->{What if expert information and data tell different stories?\\[1ex]}
-\uncover<2->{\play\ reparametrization helps to understand effect of prior-data conflict:\\}
-\begin{tikzpicture}
-[pfeil/.style={-latex', line width=1mm, color=tuered, shorten <=1mm},
- cyanrand/.style={rounded corners, text centered, draw=tuecyan!50, inner sep=1mm, line width=0.7mm},
- redbrace/.style={draw=tuered, decoration=brace, decorate, line width=0.8mm},
- redbox/.style={text centered, draw=tuered, inner sep=1.5mm, line width=1mm}]
-\uncover<2->{%
-\node at (0,0) {\parbox[c]{\textwidth}{%
-\begin{align*}
-\nz &= \az + \bz\,,
-&
-\yz &= \frac{\az}{\az + \bz}\,, \qquad \text{where}\\[1ex]
-\nn &= \nz + n\,, 
-&
-\yn &=  \frac{\nz}{\nz + n} \, \yz + \frac{n}{\nz + n} \cdot \frac{s}{n}
-\end{align*}
-}};}
-\uncover<3->{%
-\node[cyanrand] (yz) at (-0.8,-2.4) {$\yz = \E[p]$};
-\draw [pfeil] (yz.north east) to [out= 40,in=260] (1.90,-1.05);
-\draw [pfeil] (yz.north)      to [out=110,in=260] (-0.5, 0.35);}
-\uncover<4->{%
-\node[cyanrand] (yn) at (1.7,-2.4) {$\yn = \E[p\mid\vec{t}]$};
-\draw [pfeil] (yn.north) to [out=90,in=300] (-0.3,-0.95);}
-\uncover<5->{%
-\node[cyanrand] (ml) at ( 4.3,-2.4) {\parbox[c]{8.3ex}{fraction in\\ \hspace*{0.2ex} test data}};
-\draw [pfeil] (ml.north)      to [out=90,in=260] (4.4,-1.25);}
-\uncover<6->{%
-\node[cyanrand] (nz) at (-3.9,-2.4) {$\nz =$ pseudocounts};
-\draw [pfeil] (nz.north)      to [out=80,in=250] (-3.55,-0.95);
-\draw [pfeil] (nz.north west) to [out=95,in=240] (-4.6, 0.4);}
-\uncover<7->{%
-\node[redbox] (wavg) at (0,-3.5) {$\E[p\mid\vec{t}]$ is a weighted average of $\E[p]$ and $s/n$!};}
-\end{tikzpicture}
-\end{frame}
 
 %\begin{frame}{Prior-Data Conflict: Example}
 %\begin{tikzpicture}
 %\uncover<1>{\node at (0,0) {\includegraphics[width=0.7\textwidth]{figs/discr-rel-0.pdf}};}
 %\end{tikzpicture}
 %\end{frame}
-
 
 \begin{frame}{***pdc etc, 6 slides}
 (adapt slides 3--6 of ESREL talk)\\
