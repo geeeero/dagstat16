@@ -215,7 +215,8 @@ rectangle,rounded corners=0mm,draw,fill=tuepmsgreen!70,thick,inner sep=0pt,minim
 \end{tikzpicture}
 \end{column}
 \begin{column}{0.7\textwidth}
-We want to learn about the system reliability $\Rsys(t) = P(\Tsys > t)$ based on
+We want to learn about the system reliability $\Rsys(t) = P(\Tsys > t)$ {\small (system survival function)}\\
+based on
 \begin{enumerate}
 \item[\play]<2-> component test data:
  \begin{itemize}
@@ -369,35 +370,63 @@ in the sampling model for which the observed data is surprising''\\
 
 \begin{frame}{Sets of Priors}
 
+%\item[\play] 
+\textbf{Add \alert{imprecision} as new modelling dimension:\\
+\alert{Sets of priors}\ldots}
+\begin{tikzpicture}
+\node at (0,0) %
+{\parbox{\textwidth}{%
 \begin{itemize}%[<+->]
-\item[\play] \textbf{Add \alert{imprecision} as new modelling dimension:\\
-\alert{Sets of priors}}
- \begin{itemize}
- \item model uncertainty in probability statements ***show lottery A, B box
- \item allow for partial or vague information on $\ptk$
- \item highlight prior-data conflict.
- \end{itemize}
-%\item What if expert information and data tell different stories?\\
-%How is uncertainty about $\Rsys(t)$ expressed?
-%\item Choosing all these Beta parameters is hard \ldots\\
-%How to model partial and vague expert knowledge?
-\item Separate uncertainty \emph{whithin the model} (reliability statements)\\
+% \begin{itemize}
+ \item[] \ldots\ model uncertainty in probability statements %***show lottery A, B box
+         % How is uncertainty about $\Rsys(t)$ expressed?
+ \item<3->[] \ldots\ allow for partial or vague information on $\ptk$'s
+         % Choosing all these Beta parameters is hard \ldots\\
+ \item<4->[] \ldots\ highlight prior-data conflict.
+         % see later
+\end{itemize} %
+\begin{itemize}
+\item<5-> Separate uncertainty \emph{whithin the model} (reliability statements)\\
 % ie what do we expect to see if components follow a Weibull(3.5,2) 
 from uncertainty \emph{about the model} (which parameters).
-\item Can also be seen as systematic sensitivity analysis\\
-or robust Bayesian approach.
-\item \textcite{2009:WalterAugustin}, \textcite{2013:diss-gw}:\\
+\item<6-> Systematic sensitivity analysis / robust Bayesian approach
+\item<7-> \textcite{2009:WalterAugustin}, \textcite{2013:diss-gw}:\\
 vary $(\nzg, \yzr)$ in a set $\PZc = [\nzlg, \nzug] \times [\yzlr, \yzur]$\\
-\uncover<1->{\quad\play\ easy elicitation, tractability \& prior-data conflict sensitivity}\\
-Bounds for inferences (point estimate, \ldots) by min/max over $\PZc or \PNc$
+\quad\play\ easy elicitation, tractability \& prior-data conflict sensitivity
+\item<8-> Bounds for inferences (point estimate, prediction, \ldots)\\
+by min/max over $\PZc$ %or $\PNc$
+\end{itemize}
+}};
+\uncover<2>{%
+\node at (0,0.7) %
+{\parbox{\textwidth}{%
+\begin{block}{Uncertainty about probability statements}
+\centerline{smaller sets $=$ more precise probability statements}
+\vspace*{1ex}
+\parbox[t]{0.45\textwidth}{\centering \textbf{Lottery A}\\
+                          Number of winning tickets:\\
+                          exactly known as 5 out of 100\\
+                          \play\ $P(\text{win}) = 5/100$}
+\qquad
+\parbox[t]{0.45\textwidth}{\centering \textbf{Lottery B}\\
+                          Number of winning tickets:\\
+                          not exactly known, supposedly\\
+                          between 1 and 7 out of 100\\
+                          \play\ $P(\text{win}) = [1/100,\, 7/100]$}
+\end{block} %
+}};}
+\end{tikzpicture}
 
-***or slide 9 from talk-lund???
+%***or slide 9 from talk-lund???
 %\uncover<7->{\quad\play\ min and max $\Rsys(t)$ over $\PZ$ analytical in most cases!}
 %$\min_{\PZ} P\left(\Tsys > t \mid \{\nz_{k,t},\yz_{k,t},\vec{t}^k\}^{1:K}\right)$
-\end{itemize}
 
 \end{frame}
 
+
+\begin{frame}{***Sets of Priors}
+***one-component reliability plot???
+\end{frame}
 
 
 \begin{frame}{System Reliability}
@@ -418,9 +447,9 @@ Bounds for inferences (point estimate, \ldots) by min/max over $\PZc or \PNc$
  pfeil/.style={-latex', line width=1mm, color=tuered, shorten <=1mm}]
 \uncover<1->{\node at (0,0) %
      {\parbox{\textwidth}{\begin{multline*}
-       P\left(\Tsys > t \mid \{\nz_{k,t},\yz_{k,t},\vec{t}^k\}^{1:K}\right)\\
+       P\left(\Tsys > t \mid \{\nktzg,\yktzr,\vec{t}^k\}^{1:K}\right)\\
        = \sum_{l_1=0}^{m_1} \cdots \sum_{l_K=0}^{m_K} \Phi(l_1,\ldots,l_K)
-         \prod_{k=1}^K P(C^k_t = l_k\mid\nz_{k,t},\yz_{k,t},\vec{t}^k)\end{multline*}}};}
+         \prod_{k=1}^K P(C^k_t = l_k\mid\nktzg,\yktzr,\vec{t}^k)\end{multline*}}};}
 \uncover<2->{\node[cyanrand] (survsign) at (-3.1,-3.6)%
      {\parbox[c]{0.51\textwidth}{Survival signature $\Phi(l_1,\ldots,l_K)$\\ \parencite{2012:survsign}\\
        $= P(\text{system functions} \mid \{l_k \text{ \comp{k}'s function}\}^{1:K})$\\[1ex]
@@ -482,45 +511,31 @@ Bounds for inferences (point estimate, \ldots) by min/max over $\PZc or \PNc$
 %                                $f(\ptk \mid \az_{k,t},\bz_{k,t},\vec{t}^k)\, d\ptk $\\[1ex] \hspace*{5ex}
 %                                $= \binom{m_k}{l_k} \frac{B(      \az_{k,t} + s^k_t,             \bz_{k,t} + n_k - s^k_t)}%
 %                                                         {B(l_k + \az_{k,t} + s^k_t, m_k - l_k + \bz_{k,t} + n_k - s^k_t)}$}};
-                                $f(\ptk \mid \nz_{k,t},\yz_{k,t},\vec{t}^k)\, d\ptk $\\[1ex] %\hspace*{5ex}
+                                $f(\ptk \mid \nktzg,\yktzr,\vec{t}^k)\, d\ptk $\\[1ex] %\hspace*{5ex}
 (integral can be solved analytically)}};
 \draw [pfeil] (postpred.north) to [out=90,in=270] (3.0,-0.7);}
 \end{tikzpicture}
 
 \end{frame}
 
-%\begin{frame}{System Reliability: Example}
-%
-%\includegraphics[width=\textwidth]{figs/sysrelex}\\
-%
-%\end{frame}
-
-
-
-
-\iffalse
-
-%\begin{frame}{Prior-Data Conflict: Example}
-%\begin{tikzpicture}
-%\uncover<1>{\node at (0,0) {\includegraphics[width=0.7\textwidth]{figs/discr-rel-0.pdf}};}
-%\end{tikzpicture}
-%\end{frame}
-
-\begin{frame}{***pdc etc, 6 slides}
-(adapt slides 3--6 of ESREL talk)\\
-vague, incomplete prior info, pdc\\
-reparametrization\\
-Beta example\\
-imprecision\\
-sets of priors\\
-sets of Betas example?
-\end{frame}
-
 \begin{frame}{System Reliability Bounds}
-(adapt slide 9 of ESREL talk)\\
-mostly analytically (via theorems)
+
+\play\ Bounds for $\Rsys\Big(\,t\,\big|\, \Big\{\nktzg,\yktzr,\vec{t}^k\Big\}^{1:K}\Big)$
+over $\Big\{$\raisebox{-1.05ex}{$\PktZc$}$\Big\}^{1:K}$:
+\begin{itemize}
+\item $\min \Rsys(\cdot)$ by $\yktzr = \yzjlr{{k,t}}$ for any $\nktzg$\\
+%(first-order stochastic dominance of posterior predictive along $\yktzr$)
+\parencite[Theorem 1]{2016:bayessurvsignsets}
+\item $\min \Rsys(\cdot)$ for $\nzjlg{{k,t}}$ or $\nzjug{{k,t}}$ according to simple conditions\\
+%conditions on $\yzjlr{{k,t}}$
+\parencite[Theorem 2 \& Lemma 3]{2016:bayessurvsignsets}
+\item numeric optimization over $[\nzjlg{{k,t}}, \nzjlg{{k,t}}]$
+in the very few cases\\ where Theorem 2 \& Lemma 3 do not apply
+\item implemented in \textbf{R} package \texttt{ReliabilityTheory} \parencite{2016:aslett-RT}
+\end{itemize}
+%so analytical in most cases!
+
 \end{frame}
-\fi
 
 
 \begin{frame}{System Reliability Bounds}
@@ -600,7 +615,7 @@ reflects uncertainties from limited data, vague expert information, and prior-da
 \end{itemize}}
 \end{frame}
 
-\nocite{2015:bayessurvsign, 2016:bayessurvsignsets}
+%\nocite{2015:bayessurvsign}
 
 \begin{frame}{References}
 \renewcommand*{\bibfont}{\footnotesize}
