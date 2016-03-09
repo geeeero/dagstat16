@@ -6,7 +6,7 @@
 library("ReliabilityTheory")
 library(ggplot2)
 library(reshape2)
-#source("discrete-reliability-functions.R)
+#source("discrete-reliability-functions.R")
 
 bottomlegend <- theme(legend.position = 'bottom', legend.direction = 'horizontal', legend.title = element_blank())
 rightlegend <- theme(legend.title = element_blank())
