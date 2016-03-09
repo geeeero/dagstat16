@@ -447,7 +447,7 @@ by min/max over $\PZc$ %or $\PNc$
  pfeil/.style={-latex', line width=1mm, color=tuered, shorten <=1mm}]
 \uncover<1->{\node at (0,0) %
      {\parbox{\textwidth}{\begin{multline*}
-       P\left(\Tsys > t \mid \{\nktzg,\yktzr,\vec{t}^k\}^{1:K}\right)\\
+       \Rsys\left( t \mid \{\nktzg,\yktzr,\vec{t}^k\}^{1:K} \right) = P\left(\Tsys > t \mid \cdots \right)\\
        = \sum_{l_1=0}^{m_1} \cdots \sum_{l_K=0}^{m_K} \Phi(l_1,\ldots,l_K)
          \prod_{k=1}^K P(C^k_t = l_k\mid\nktzg,\yktzr,\vec{t}^k)\end{multline*}}};}
 \uncover<2->{\node[cyanrand] (survsign) at (-3.1,-3.6)%
@@ -547,7 +547,7 @@ in the very few cases\\ where Theorem 2 \& Lemma 3 do not apply
  cross/.style={cross out,draw=red,very thick,minimum width=7mm, minimum height=5mm},
  hv path/.style={thick, to path={-| (\tikztotarget)}},
  vh path/.style={thick, to path={|- (\tikztotarget)}}]
-\node at (0,0) {\includegraphics[width=\textwidth]{figs/brakingsystem-mresday16.pdf}};
+\node at (0,0) {\includegraphics[width=\textwidth]{figs/brakingsystem-dagstat16.pdf}};
 \begin{scope}[scale=0.90,xshift=3.4cm,yshift=-1.1cm]
 \node[typeM] (M)    at ( 0  , 0  ) {M};
 \node[typeC] (C1)   at ( 1  , 1.5) {C1};

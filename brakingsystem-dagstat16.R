@@ -97,13 +97,13 @@ abdf <- rbind(data.frame(abM, Part="M"), data.frame(abH, Part="H"), data.frame(a
 abdf$Item <- ordered(abdf$Item, levels=c("Prior", "Posterior"))
 abdf$Part <- ordered(abdf$Part, levels=c("M", "H", "C", "P", "System"))
 #the plot
-ab1 <- ggplot(abdf, aes(x=Time)) #+ theme_bw()
-ab1 <- ab1 #+ scale_fill_manual(values = c(tuered, tueblue)) + scale_colour_manual(values = c(tuered, tueblue))
-ab1 <- ab1 +  geom_line(aes(y=Upper, group=Item, colour=Item)) + geom_line(aes(y=Lower, group=Item, colour=Item))
+ab1 <- ggplot(abdf, aes(x=Time)) + scale_colour_manual(values = c(tuered, tueblue))
+#ab1 <- ab1 + scale_fill_manual(values = c(tuered, tueblue)) + scale_colour_manual(values = c(tuered, tueblue))
+ab1 <- ab1 + geom_line(aes(y=Upper, group=Item, colour=Item)) + geom_line(aes(y=Lower, group=Item, colour=Item))
 ab1 <- ab1 + geom_ribbon(aes(ymin=Lower, ymax=Upper, group=Item, colour=Item, fill=Item), alpha=0.5)
 ab1 <- ab1 + facet_wrap(~Part, nrow=2) + geom_rug(aes(x=x), data=abdat) + xlab("Time") + ylab("Survival Probability")
 ab1 <- ab1 + bottomlegend
 
-pdf("figs/brakingsystem-mresday16.pdf", width=8, height=5)
+pdf("figs/brakingsystem-dagstat16.pdf", width=8, height=5)
 ab1
 dev.off()

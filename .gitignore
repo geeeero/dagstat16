@@ -159,3 +159,5 @@ pythontex-files-*/
 # Latexian
 TSWLatexianTemp*
 .Rproj.user
+.RData
+.Rhistory
