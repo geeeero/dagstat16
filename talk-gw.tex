@@ -451,7 +451,7 @@ by min/max over $\PZc$ %or $\PNc$
  pfeil/.style={-latex', line width=1mm, color=tuered, shorten <=1mm}]
 \uncover<1->{\node at (0,0) %
      {\parbox{\textwidth}{\begin{multline*}
-       \Rsys\left( t \mid \{\nktzg,\yktzr,\vec{t}^k\}^{1:K} \right) = P\left(\Tsys > t \mid \cdots \right)\\
+       \Rsys\Big( t \mid {\textstyle \bigcup_{k=1}^K} \big\{\nktzg,\yktzr,\vec{t}^k\big\} \Big) = P(\Tsys > t \mid \cdots )\\
        = \sum_{l_1=0}^{m_1} \cdots \sum_{l_K=0}^{m_K} \Phi(l_1,\ldots,l_K)
          \prod_{k=1}^K P(C^k_t = l_k\mid\nktzg,\yktzr,\vec{t}^k)\end{multline*}}};}
 \uncover<2->{\node[cyanrand] (survsign) at (-3.1,-3.6)%
@@ -516,7 +516,8 @@ by min/max over $\PZc$ %or $\PNc$
 %                                $= \binom{m_k}{l_k} \frac{B(      \az_{k,t} + s^k_t,             \bz_{k,t} + n_k - s^k_t)}%
 %                                                         {B(l_k + \az_{k,t} + s^k_t, m_k - l_k + \bz_{k,t} + n_k - s^k_t)}$}};
                                 $f(\ptk \mid \nktzg,\yktzr,\vec{t}^k)\, d\ptk $\\[1ex] %\hspace*{5ex}
-(integral can be solved analytically)}};
+\play\ analytical solution for integral:\\
+\hspace*{2ex}$C^k_t \mid \nktzg,\yktzr,\vec{t}^k \sim \bebin$}};
 \draw [pfeil] (postpred.north) to [out=90,in=270] (3.0,-0.7);}
 \end{tikzpicture}
 
@@ -524,8 +525,8 @@ by min/max over $\PZc$ %or $\PNc$
 
 \begin{frame}{System Reliability Bounds}
 
-\play\ Bounds for $\Rsys\Big(\,t\,\big|\, \Big\{\nktzg,\yktzr,\vec{t}^k\Big\}^{1:K}\Big)$
-over $\Big\{$\raisebox{-1.05ex}{$\PktZc$}$\Big\}^{1:K}$:
+\play\ Bounds for $\Rsys\Big(\,t\,\big|\, \bigcup\limits_{k=1}^K \Big\{\nktzg,\yktzr,\vec{t}^k\Big\}\Big)$
+over $\bigcup\limits_{k=1}^K \Big\{$\raisebox{-1.05ex}{$\PktZc$}$\Big\}$:
 \begin{itemize}[<+->]
 \item $\min \Rsys(\cdot)$ by $\yktzr = \yzjlr{{k,t}}$ for any $\nktzg$\\
 %(first-order stochastic dominance of posterior predictive along $\yktzr$)
@@ -533,7 +534,7 @@ over $\Big\{$\raisebox{-1.05ex}{$\PktZc$}$\Big\}^{1:K}$:
 \item $\min \Rsys(\cdot)$ for $\nzjlg{{k,t}}$ or $\nzjug{{k,t}}$ according to simple conditions\\
 %conditions on $\yzjlr{{k,t}}$
 \parencite[Theorem 2 \& Lemma 3]{2016:bayessurvsignsets}
-\item numeric optimization over $[\nzjlg{{k,t}}, \nzjlg{{k,t}}]$
+\item numeric optimization over $[\nzjlg{{k,t}}, \nzjug{{k,t}}]$
 in the very few cases\\ where Theorem 2 \& Lemma 3 do not apply
 \item implemented in \textbf{R} package \texttt{ReliabilityTheory} \parencite{2016:aslett-RT}
 \end{itemize}
