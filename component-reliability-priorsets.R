@@ -1,4 +1,4 @@
-source("brakingsystem-mday16.R")
+source("brakingsystem-dagstat16.R")
 
 set.seed(424242)
 b0 <- graph.formula(s -- 2:3 -- 4 -- 5:6 -- 1 -- t, 2 -- 5, 3 -- 6)
