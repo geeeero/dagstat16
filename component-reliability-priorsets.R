@@ -4,7 +4,7 @@ set.seed(424242)
 b0 <- graph.formula(s -- 2:3 -- 4 -- 5:6 -- 1 -- t, 2 -- 5, 3 -- 6)
 b0 <- setCompTypes(b0, list("T1"=c(2,3,5,6), "T2"=c(4), "T3"=c(1)))
 b0nulldata <- list("T1"=NULL, "T2"=NULL, "T3"=NULL)
-b0testdata <- list("T1"=runif(20, min=0, max=10), #c(2:6),
+b0testdata <- list("T1"=rexp(20, rate=0.3),       #c(2:6),
                    "T2"=runif(10, min=0, max=10), #c(4.0, 4.2, 4.4, 4.6, 4.8, 5.0),
                    "T3"=runif(10, min=8, max=10)) #(14:19)/2) # T3 late failures
 b0dat <- melt(b0testdata); names(b0dat) <- c("x", "Part")
@@ -33,7 +33,7 @@ b0T3 <- oneCompPriorPostSet("T3", b0t, b0testdata, b0nL, b0nU, b0yL, b0yU)
 b0df <- rbind(data.frame(b0T1, Part="T1"), data.frame(b0T2, Part="T2"), data.frame(b0T3, Part="T3"))
 b0df$Item <- ordered(b0df$Item, levels=c("Prior", "Posterior"))
 
-T1p <- ggplot(subset(b0df, Part=="T1"), aes(x=Time)) + scale_colour_manual(values = c(tuered, tueblue)) #+ theme_bw()
+T1p <- ggplot(subset(b0df, Part=="T1"), aes(x=Time)) + priopostcolours1 + priopostcolours2 #+ theme_bw()
 T1p <- T1p + geom_line(aes(y=Upper, group=Item, colour=Item)) + geom_line(aes(y=Lower, group=Item, colour=Item))
 T1p <- T1p + geom_ribbon(aes(ymin=Lower, ymax=Upper, group=Item, colour=Item, fill=Item), alpha=0.5)
 T1p <- T1p + geom_rug(aes(x=x), data=subset(b0dat, Part=="T1")) + xlab("Time") + ylab("Survival Probability")
@@ -42,7 +42,7 @@ pdf("figs/T1p.pdf", width=6, height=3.75)
 T1p
 dev.off()
 
-T2p <- ggplot(subset(b0df, Part=="T2"), aes(x=Time)) + scale_colour_manual(values = c(tuered, tueblue)) #+ theme_bw()
+T2p <- ggplot(subset(b0df, Part=="T2"), aes(x=Time)) + priopostcolours1 + priopostcolours2 #+ theme_bw()
 T2p <- T2p + geom_line(aes(y=Upper, group=Item, colour=Item)) + geom_line(aes(y=Lower, group=Item, colour=Item))
 T2p <- T2p + geom_ribbon(aes(ymin=Lower, ymax=Upper, group=Item, colour=Item, fill=Item), alpha=0.5)
 T2p <- T2p + geom_rug(aes(x=x), data=subset(b0dat, Part=="T2")) + xlab("Time") + ylab("Survival Probability")
@@ -51,7 +51,7 @@ pdf("figs/T2p.pdf", width=6, height=3.75)
 T2p
 dev.off()
 
-T3p <- ggplot(subset(b0df, Part=="T3"), aes(x=Time)) + scale_colour_manual(values = c(tuered, tueblue)) #+ theme_bw()
+T3p <- ggplot(subset(b0df, Part=="T3"), aes(x=Time)) + priopostcolours1 + priopostcolours2 #+ theme_bw()
 T3p <- T3p + geom_line(aes(y=Upper, group=Item, colour=Item)) + geom_line(aes(y=Lower, group=Item, colour=Item))
 T3p <- T3p + geom_ribbon(aes(ymin=Lower, ymax=Upper, group=Item, colour=Item, fill=Item), alpha=0.5)
 T3p <- T3p + geom_rug(aes(x=x), data=subset(b0dat, Part=="T3")) + xlab("Time") + ylab("Survival Probability")
