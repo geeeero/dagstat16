@@ -279,7 +279,7 @@ based on
 \node at (1,3.5) %
 {\parbox{\textwidth}{%
 \uncover<1->{%
-Functioning probability $\ptk$ of \comp{k} for each time $t \in {\cal T} = \{\dot{t}_1, \dot{t}_2, \ldots \}$\\
+Functioning probability $\ptk$ of \comp{k} for each time $t \in {\cal T} = \{t'_1, t'_2, \ldots \}$\\
 \quad\play\ discrete component reliability function $R^k(t) = p^k_t, \ t \in {\cal T}$.}}};
 \uncover<2>{\node at (0,0) {\includegraphics[width=0.7\textwidth]{figs/discr-rel-0.pdf}};}
 \uncover<3>{\node at (0,0) {\includegraphics[width=0.7\textwidth]{figs/discr-rel-1.pdf}};}
@@ -525,8 +525,8 @@ by min/max over $\PZc$ %or $\PNc$
 \uncover<9>{\node[cyanrand] (postpred) at (3,-3.6)%
      {\parbox[c]{0.41\textwidth}{Posterior predictive probability that\\ in a new system, $l_k$ of the $m_k$ \comp{k}'s\\
                                 function at time $t$:\\[1ex] \hspace*{1ex}
-                                $\binom{m_k}{l_k} \int [P(T <   t \mid \ptk)]^{l_k}$ \\ \hspace*{5.6ex}
-                                                        $[P(T \ge t \mid \ptk)]^{m_k-l_k}$ \\ \hspace*{6ex}
+                                $\binom{m_k}{l_k} \int [P(T_k >   t \mid \ptk)]^{l_k}$ \\ \hspace*{5.6ex}
+                                                      $[P(T_k \le t \mid \ptk)]^{m_k-l_k}$ \\ \hspace*{6ex}
 %                                $f(\ptk \mid \az_{k,t},\bz_{k,t},\vec{t}^k)\, d\ptk $\\[1ex] \hspace*{5ex}
 %                                $= \binom{m_k}{l_k} \frac{B(      \az_{k,t} + s^k_t,             \bz_{k,t} + n_k - s^k_t)}%
 %                                                         {B(l_k + \az_{k,t} + s^k_t, m_k - l_k + \bz_{k,t} + n_k - s^k_t)}$}};
