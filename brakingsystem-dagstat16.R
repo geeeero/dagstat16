@@ -31,8 +31,10 @@ oneCompPriorPostSet <- function(name, at.times, test.data, nLower, nUpper, yLowe
   data <- test.data[match(name, names(test.data))]
   prio <- nonParBayesSystemInferencePriorSets(at.times, sig, nodata, nL, nU, yL, yU)
   post <- nonParBayesSystemInferencePriorSets(at.times, sig,   data, nL, nU, yL, yU)
+  datavec <- unlist(data)
+  erf <- sapply(at.times, FUN = function(t) sum(datavec > t)/length(datavec))
   data.frame(Time=rep(at.times,2), Lower=c(prio$lower,post$lower), Upper=c(prio$upper,post$upper),
-             Item=rep(c("Prior", "Posterior"), each=length(at.times)))
+             Erf=rep(erf,2), Item=rep(c("Prior", "Posterior"), each=length(at.times)))
 }
 
 tuered <- rgb(0.839,0.000,0.290)
@@ -98,7 +100,7 @@ abpost <- nonParBayesSystemInferencePriorSets(abt, absig, abtestdata, abnL, abnU
 #data frame for plot
 abdf <- rbind(data.frame(abM, Part="M"), data.frame(abH, Part="H"), data.frame(abC, Part="C"), data.frame(abP, Part="P"),
               data.frame(Time=rep(abt,2), Lower=c(abprio$lower,abpost$lower), Upper=c(abprio$upper,abpost$upper),
-                         Item=rep(c("Prior", "Posterior"), each=length(abt)), Part="System"))
+                         Erf=NA, Item=rep(c("Prior", "Posterior"), each=length(abt)), Part="System"))
 abdf$Item <- ordered(abdf$Item, levels=c("Prior", "Posterior"))
 abdf$Part <- ordered(abdf$Part, levels=c("M", "H", "C", "P", "System"))
 
@@ -111,6 +113,7 @@ ab1 <- ggplot(abdf, aes(x=Time))
 ab1 <- ab1 + priopostcolours1 + priopostcolours2
 ab1 <- ab1 + geom_line(aes(y=Upper, group=Item, colour=Item)) + geom_line(aes(y=Lower, group=Item, colour=Item))
 ab1 <- ab1 + geom_ribbon(aes(ymin=Lower, ymax=Upper, group=Item, colour=Item, fill=Item), alpha=0.5)
+ab1 <- ab1 + geom_line(aes(y=Erf, group=Item), colour=tueorange, lty=2)
 ab1 <- ab1 + facet_wrap(~Part, nrow=2) + geom_rug(aes(x=x), data=abdat) + xlab("Time") + ylab("Survival Probability")
 ab1 <- ab1 + bottomlegend
 
